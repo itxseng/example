@@ -367,9 +367,9 @@ const countries = [
     "iso": "CN",
     "flag": "https://cdn.kcak11.com/CountryFlags/countries/cn.svg",
     "mask": [
+      "##-#####-#####",
       "(###)####-###",
-      "(###)####-####",
-      "##-#####-#####"
+      "(###)####-####"
     ],
     "zh": "中国"
   },
