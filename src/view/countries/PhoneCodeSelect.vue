@@ -15,14 +15,59 @@
         </span>
       </el-option>
     </el-select>
+    <div class="phone-input" v-if="selectedCode" style="margin-top: 1rem">
+      <span class="prefix">{{ selectedCode }}</span>
+      <input
+          :placeholder="currentMask"
+          :value="formattedPhone"
+          @input="onPhoneInput"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import countries from './data/countries-with-zh.js';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const selectedCode = ref(null);
+const phone = ref('');
+
+const selectedCountry = computed(() =>
+  countries.find(c => c.code === selectedCode.value)
+);
+
+const currentMask = computed(() => {
+  const mask = selectedCountry.value?.mask;
+  if (!mask) return '';
+  return Array.isArray(mask) ? mask[0] : mask;
+});
+
+function applyMask(value, mask) {
+  if (!mask) return value;
+  const digits = value.replace(/\D/g, '');
+  const masks = Array.isArray(mask) ? mask : [mask];
+  const targetMask =
+    masks.find(m => digits.length <= m.replace(/[^#]/g, '').length) || masks[masks.length - 1];
+  let result = '';
+  let idx = 0;
+  for (const ch of targetMask) {
+    if (ch === '#') {
+      if (idx < digits.length) {
+        result += digits[idx++];
+      }
+    } else {
+      result += ch;
+    }
+  }
+  return result;
+}
+
+const formattedPhone = computed(() => applyMask(phone.value, selectedCountry.value?.mask));
+
+function onPhoneInput(e) {
+  phone.value = e.target.value.replace(/\D/g, '');
+}
 </script>
 
 <style scoped>
@@ -36,6 +81,15 @@ const selectedCode = ref(null);
 .flag {
   width: 20px;
   height: 15px;
+  margin-right: 0.5rem;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+}
+
+.phone-input .prefix {
   margin-right: 0.5rem;
 }
 </style>
