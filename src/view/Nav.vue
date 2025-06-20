@@ -3,6 +3,7 @@
   <el-menu mode="horizontal" router background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
     <el-menu-item index="/">首页</el-menu-item>
     <el-menu-item index="/country">国家选择器</el-menu-item>
+    <el-menu-item index="/phone-code">区号选择器</el-menu-item>
   </el-menu>
 </template>
 
