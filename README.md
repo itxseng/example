@@ -3,8 +3,8 @@
 Simple demo project using Vue 3, Element Plus and Vue Router.
 It provides a navigation bar and two sample selector pages:
 
-- Country selector with name and flag.
-- Phone code selector showing dialing code and flag.
+- Country selector with name and a country flag image.
+- Phone code selector showing dialing code and a country flag image.
 
 ## Recommended IDE Setup
 

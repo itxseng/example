@@ -6,10 +6,13 @@
       <el-option
           v-for="c in countries"
           :key="c.iso"
-          :label="`${flag(c.iso)} ${c.zh || c.name}`"
+          :label="c.zh || c.name"
           :value="c.iso"
       >
-        <span>{{ flag(c.iso) }} {{ c.zh || c.name }} ({{ c.code }})</span>
+        <span class="option">
+          <img class="flag" :src="c.flag" :alt="c.name" />
+          <span>{{ c.zh || c.name }} ({{ c.code }})</span>
+        </span>
       </el-option>
     </el-select>
   </div>
@@ -20,16 +23,19 @@ import countries from './data/countries-with-zh.js';
 import { ref } from 'vue';
 
 const selectedCountry = ref(null);
-
-function flag(iso) {
-  return [...iso.toUpperCase()]
-      .map(ch => String.fromCodePoint(127397 + ch.charCodeAt()))
-      .join('');
-}
 </script>
 
 <style scoped>
 .el-select {
   margin-top: 1rem;
+}
+.option {
+  display: flex;
+  align-items: center;
+}
+.flag {
+  width: 20px;
+  height: 15px;
+  margin-right: 0.5rem;
 }
 </style>
