@@ -15,7 +15,7 @@
         </span>
       </el-option>
     </el-select>
-    <div class="phone-input" v-if="selectedCode" style="margin-top: 1rem">
+    <div class="phone-input" v-if="selectedCode">
       <span class="prefix">{{ selectedCode }}</span>
       <input
           :placeholder="currentMask"
@@ -43,6 +43,15 @@ const currentMask = computed(() => {
   return Array.isArray(mask) ? mask[0] : mask;
 });
 
+const maxDigits = computed(() => {
+  const mask = selectedCountry.value?.mask;
+  if (!mask) return Infinity;
+  const masks = Array.isArray(mask) ? mask : [mask];
+  return Math.max(
+    ...masks.map(m => (m.match(/#/g) || []).length)
+  );
+});
+
 function applyMask(value, mask) {
   if (!mask) return value;
   const digits = value.replace(/\D/g, '');
@@ -66,7 +75,8 @@ function applyMask(value, mask) {
 const formattedPhone = computed(() => applyMask(phone.value, selectedCountry.value?.mask));
 
 function onPhoneInput(e) {
-  phone.value = e.target.value.replace(/\D/g, '');
+  const digits = e.target.value.replace(/\D/g, '');
+  phone.value = digits.slice(0, maxDigits.value);
 }
 </script>
 
@@ -85,11 +95,20 @@ function onPhoneInput(e) {
 }
 
 .phone-input {
+  margin-top: 1rem;
   display: flex;
   align-items: center;
 }
 
 .phone-input .prefix {
   margin-right: 0.5rem;
+  color: #333;
+}
+
+.phone-input input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>
