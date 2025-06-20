@@ -26,7 +26,7 @@
 
 <script setup>
 import countries from './data/countries-with-zh.js';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import PhoneNumberInput from '../../components/PhoneNumberInput.vue';
 
 const selectedCode = ref(null);
@@ -35,6 +35,10 @@ const phone = ref('');
 const selectedCountry = computed(() =>
   countries.find(c => c.code === selectedCode.value)
 );
+
+watch(selectedCode, () => {
+  phone.value = '';
+});
 </script>
 
 <style scoped>
