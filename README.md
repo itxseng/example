@@ -1,6 +1,7 @@
 # example
 
-This template should help get you started developing with Vue 3 in Vite.
+Simple demo project using Vue 3, Element Plus and Vue Router.
+It provides a navigation bar and a sample country selector page.
 
 ## Recommended IDE Setup
 
